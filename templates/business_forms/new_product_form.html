@@ -1,0 +1,208 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_styles %}
+{% endblock %}
+
+{% block extra_scripts %}
+    <script src="{% static "js/new_product.js" %}"></script>
+{% endblock %}
+
+{% block title %}
+    Анкета предзаписи на Базовой курс по рефракционной хирургии
+{% endblock %}
+
+{% block extra_links %}
+    <link rel="stylesheet" href="{% static "css/pink_form.css" %}">
+{% endblock %}
+
+{% block content %}
+    <form action="{% url "new_product" %}" method="post">
+        {% csrf_token %}
+        <div class="form-container">
+            <div class="header_image_container">
+                <img src="{{ business_form_settings.photo.url }}">
+            </div>
+            <div class="description_container">
+                <div class="description_container_header_cap"></div>
+                <div class="description_container_header_container">
+                    <div class="description_container_header">
+                        <div class="description_container_header_text" dir="auto" role="heading" aria-level="1">
+                            Анкета предзаписи на Базовой курс по рефракционной хирургии
+                        </div>
+                    </div>
+                    <div class="description_container_header_body" dir="auto">
+                        Если вы не знаете, с чего начать в рефракционной хирургии или уже начали работать, но есть ряд сложностей (например, сложности с расчетом, отбором пациентов, интерпретацией кератотопографических снимков и др.), то вы по адресу.<br><br>
+                        После заполнения анкеты лично я свяжусь с вами и проведём «диагностику» вашей ситуации. В формате экспресс-разбора вашей работы, задам несколько вопросов, подскажу по дальнейшим действиям и предложу варианты, чем могу вам помочь.<br><br>
+                        Я занимаюсь рефракционной хирургией 10 лет, и мои ученики разбираются в этом направлении легко 🤓 Они сами врачи-хирурги, врачи-диагносты, ординаторы/аспиранты и уже прошли этот путь: отбирают пациентов , легко могут выявить показания/противопоказания к лазерной коррекции, рассказать пациентам про все методы, а кому нужно отказать, вам точно будет полезно )<br><br>
+                        Время заполнения - 3 минуты<br><br>
+                        Красавчиков и красоток, кто ответит на все вопросы, будет ждать приятный бонус от меня в конце 😋🎁
+                    </div>
+                </div>
+            </div>
+            <div class="field_list" role="list">
+                {% for field in medblogers_form %}
+                    {% if field.name == "full_name" %}
+                        <div class="field_item_container" role="listitem">
+                            <div class="field_inline_item_container">
+                                <div class="field_item_label_container">
+                                    <div class="field_item_label">
+                                        <div class="field_item_label_text">
+                                            <b>🎁 БОНУС</b><br>
+                                            Оставьте свои контактные данные, если хотите получить <b>чек-лист по планированию рефракционной хирургии 🔥</b> (после созвона)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                    <div class="field_item_container" role="listitem">
+                        <div class="field_inline_item_container">
+                            <div class="field_item_label_container">
+                                <div class="field_item_label">
+                                    <div class="field_item_label_text">
+                                        {% if field.name != "policy_agreement" %}
+                                            {{ field.label }}
+                                        {% else %}
+                                            Согласен с
+                                            <a href="https://readyschool.ru/politicapers" target="_blank">
+                                                политикой обработки персональных данных
+                                            </a>
+                                        {% endif %}
+                                        {% if field.field.required %}
+                                            <span class="required_star">*</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field_item_input_container">
+                                <div class="field_item_input">
+                                    <div class="field_item_input_inline">
+                                        <div class="input_container">
+                                            <div class="radio-button-container">
+                                                {% if field.name == "source" or field.name == "bought_products" or field.name == "operations_status" %}
+                                                    {% for value, label in field.field.choices %}
+                                                        <div class="radio-button">
+                                                            <input type="radio" class="radio-button__input"
+                                                                   id="{{ field.name }}_{{ value }}"
+                                                                   name="{{ field.name }}" value="{{ value }}"
+                                                                   {% if field.value == value %}checked{% endif %}>
+
+                                                            <label class="radio-button__label"
+                                                                   for="{{ field.name }}_{{ value }}">
+                                                                <span class="radio-button__custom"></span>
+                                                                {{ label }}
+                                                            </label>
+                                                        </div>
+                                                    {% endfor %}
+                                                {% elif field.name == "warmup_level" %}
+                                                    <div class="zero_to_ten_choices_container">
+                                                        <div class="left_text">
+                                                            <span>А Вы точно врач-офтальмохирург?</span>
+                                                        </div>
+                                                        <div class="wrapper_radio-button">
+                                                            {% for value, label in field.field.choices %}
+                                                                <div class="radio-button">
+                                                                    <input type="radio" class="radio-button__input"
+                                                                           id="{{ field.name }}_{{ value }}"
+                                                                           name="{{ field.name }}" value="{{ value }}"
+                                                                           {% if field.value == value %}checked{% endif %}>
+
+                                                                    <label class="radio-button__label radio-button__label_0_10"
+                                                                           for="{{ field.name }}_{{ value }}">
+                                                                        <span class="count">{{ label }}</span>
+                                                                        <span class="radio-button__custom"></span>
+                                                                    </label>
+                                                                </div>
+                                                            {% endfor %}
+                                                        </div>
+                                                        <div class="right_text">
+                                                            <span>Куда платить?</span>
+                                                        </div>
+                                                    </div>
+                                                {% elif field.name == "workload_level" %}
+                                                    <div class="zero_to_ten_choices_container">
+                                                        <div class="left_text">
+                                                            <span>Времени вагон</span>
+                                                        </div>
+                                                        <div class="wrapper_radio-button">
+                                                            {% for value, label in field.field.choices %}
+                                                                <div class="radio-button">
+                                                                    <input type="radio" class="radio-button__input"
+                                                                           id="{{ field.name }}_{{ value }}"
+                                                                           name="{{ field.name }}" value="{{ value }}"
+                                                                           {% if field.value == value %}checked{% endif %}>
+
+                                                                    <label class="radio-button__label radio-button__label_0_10"
+                                                                           for="{{ field.name }}_{{ value }}">
+                                                                        <span class="count">{{ label }}</span>
+                                                                        <span class="radio-button__custom"></span>
+                                                                    </label>
+                                                                </div>
+                                                            {% endfor %}
+                                                        </div>
+                                                        <div class="right_text">
+                                                            <span>Вообще не до обучений, надо начать бы ЖИТЬ</span>
+                                                        </div>
+                                                    </div>
+                                                {% elif field.name == "policy_agreement" %}
+                                                    {{ field }}
+                                                    <div class="radio-button-container">
+                                                        <div class="radio-button">
+                                                            <input type="radio" class="radio-button__input" id="radio"
+                                                                   name="radio-group">
+                                                            <label class="radio-button__label" for="radio">
+                                                                <span class="radio-button__custom"></span>
+                                                                да
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                {% elif 'auto-resize-textarea' in field.field.widget.attrs.class %}
+                                                    <div class="textarea-with-underline">
+                                                        {{ field }}
+                                                        <div class="underline"></div>
+                                                    </div>
+                                                {% else %}
+                                                    {{ field }}
+                                                {% endif %}
+                                                <div class="line"></div>
+                                            </div>
+                                            <div class="line"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field_item_warning_container">
+                                <div class="field_item_warning">
+                                    <img src="{% static "img/warning.svg" %}">
+                                    <span class="warning_text">Это обязательный вопрос.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                {% endfor %}
+            </div>
+            <div class="buttons_container">
+                <div class="buttons_inline_container">
+                    <div class="submit_container">
+                        <div class="submit_button" role="button">
+                        <span class="submit_text_container">
+                            <span class="submit_text">
+                                Отправить
+                            </span>
+                        </span>
+                        </div>
+                    </div>
+                    <div class="clear_container">
+                        <div class="clear_inline_container" role="button">
+                            <span class="clear_button">
+                                <span class="clear_button_text">Очистить форму</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}
