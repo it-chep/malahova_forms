@@ -15,6 +15,7 @@ def _format_new_product_message(product_data) -> str:
 • Возраст: {product_data.get("age") or 'Не указан'}
 • Город: {product_data.get("city") or 'Не указан'}
 • Telegram: {product_data.get("telegram") or 'Не указан'}
+• Телефон: {product_data.get("phone") or 'Не указан'}
 """
 
 

@@ -45,6 +45,8 @@ class NewProductView(TemplateView):
                 "full_name": instance.full_name,
                 "age": instance.age,
                 "city": instance.city,
+                "telegram": instance.telegram,
+                "phone": instance.phone,
             }
 
             self.notification_client.send_new_product_notification(data, [os.getenv("NOTIFICATION_CHAT_ID")])
