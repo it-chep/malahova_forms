@@ -56,29 +56,9 @@ class NewProductForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        optional_fields = {'full_name', 'instagram', 'telegram_channel', 'telegram', 'phone', 'email'}
         for field_name, field in self.fields.items():
-            field.required = field_name not in optional_fields
-
-        required_message_fields = [
-            'source',
-            'bought_products',
-            'city',
-            'age',
-            'specialization',
-            'income_rub',
-            'operations_status',
-            'study_goal',
-            'current_difficulties',
-            'attempted_solutions',
-            'subscription_info',
-            'top_questions',
-            'warmup_level',
-            'workload_level',
-            'policy_agreement',
-        ]
-        for field_name in required_message_fields:
-            self.fields[field_name].error_messages.update({'required': 'Обязательное поле'})
+            field.required = True
+            field.error_messages.update({'required': 'Обязательное поле'})
 
         self.fields['source'].choices = list(NewProduct.SOURCE_CHOICES)
         self.fields['bought_products'].choices = list(NewProduct.BOUGHT_PRODUCTS_CHOICES)
